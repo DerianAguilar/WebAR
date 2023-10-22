@@ -1,18 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-  <!-- we import arjs version without NFT but with marker + location based support -->
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <head>
+    <title>Realidad Aumentada Web</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.2.0/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.rawgit.com/chenzlabs/aframe-ar-nft-component/v3.0.1/build/aframe-ar-nft.js"></script>
+  </head>
   <body style="margin: 0px; overflow: hidden">
-    <a-scene embedded arjs>
-      <a-marker preset="hiro">
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      <a-nft
+        type="nft"
+        url="./target/trex"
+        smooth="true"
+        smoothCount="10"
+        smoothTolerance=".01"
+        smoothThreshold="5"
+      >
         <a-entity
+          id="model"
           position="0 0 0"
-          scale="0.05 0.05 0.05"
-          gltf-model="https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"
+          scale="3 3 3"
+          gltf-model="./models/PeterHeadSimpleHairMesh.glb"
         ></a-entity>
+      </a-nft>
+      <a-marker url="hiro">
+        <a-entity id="model" position="0 0 0" scale="0.5 0.5 0.5" gltf-model="./models/Vinayagar.glb"></a-entity>
       </a-marker>
       <a-entity camera></a-entity>
+
+      <div style="position: absolute; top: 10px; left: 10px; z-index: 1">
+        <button onclick="changeModel('./models/Vinayagar.glb')">
+          Modelo 1
+        </button>
+        <button onclick="changeModel('./models/OtroModelo.glb')">
+          Modelo 2
+        </button>
+      </div>
     </a-scene>
+
+    <script>
+      function changeModel(model) {
+        document.getElementById("model").setAttribute("gltf-model", model);
+      }
+    </script>
   </body>
 </html>
